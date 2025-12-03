@@ -1,0 +1,16 @@
+@WebApi_HostAddress = http://localhost:5051
+
+GET {{WebApi_HostAddress}}/task/list-all-task/0/10
+Accept: application/json
+
+###
+
+POST {{WebApi_HostAddress}}/task/create-task
+Content-Type: application/json
+
+{
+    "title": "Hello",
+    "description": "world"
+}
+
+###

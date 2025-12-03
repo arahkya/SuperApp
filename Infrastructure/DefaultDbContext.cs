@@ -1,0 +1,73 @@
+using Domain.TaskManagement;
+using Microsoft.EntityFrameworkCore;
+
+namespace Infrastructure;
+
+public class DefaultDbContext(DbContextOptions<DefaultDbContext> options) : DbContext(options)
+{
+    public DbSet<TaskEntity> Tasks { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        
+        modelBuilder.Entity<TaskEntity>().ToTable("Tasks");
+        modelBuilder.Entity<TaskEntity>().HasKey(x => x.Id);
+        modelBuilder.Entity<TaskEntity>().Property(x => x.Title).IsRequired().HasMaxLength(100);
+        modelBuilder.Entity<TaskEntity>().Property(x => x.Description).HasMaxLength(1000);
+        
+        modelBuilder.Entity<TaskEntity>().HasData(
+        [
+            new TaskEntity { Id = new Guid("b42132ed-c735-770c-ab7a-4b232e813039"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Design Database Schema", Description = "Create an optimized schema for the new project database." },            
+            new TaskEntity { Id = new Guid("a3511444-682a-7631-ab76-692e94ebbc8f"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Implement Authentication", Description = "Develop secure login and registration functionality." },            
+            new TaskEntity { Id = new Guid("9d531d27-c06a-766e-8160-b8f178d5243f"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Set Up CI/CD Pipeline", Description = "Configure automated build and deployment pipeline." },            
+            new TaskEntity { Id = new Guid("d87fc77d-e061-7438-9994-def849e4654b"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Create API Documentation", Description = "Write comprehensive documentation for all API endpoints." },            
+            new TaskEntity { Id = new Guid("aabe2a3a-bd9e-7517-8e57-e99e4c53d130"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Develop User Dashboard", Description = "Build a responsive dashboard for user analytics." },            
+            new TaskEntity { Id = new Guid("ce6114fc-3dd4-7733-bab1-f3004eeb4230"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Optimize Query Performance", Description = "Improve database query speed and efficiency." },            
+            new TaskEntity { Id = new Guid("23f98e28-9302-7a62-a21f-4aba8049c1f3"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Integrate Payment Gateway", Description = "Add support for online payments using Stripe." },            
+            new TaskEntity { Id = new Guid("4ad6e63e-4b4f-767d-a968-fea879cf4f59"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Implement Role-Based Access", Description = "Set up user roles and permissions for the system." },            
+            new TaskEntity { Id = new Guid("0ce75541-8f68-7c96-971d-b0c18e251b21"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Write Unit Tests", Description = "Ensure code reliability with unit test coverage." },            
+            new TaskEntity { Id = new Guid("c2e1c864-e71d-7043-bca5-97fcc8ff70a7"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Configure Logging", Description = "Set up centralized logging for error tracking." },            
+            new TaskEntity { Id = new Guid("03b31f58-aafe-7ac9-9c0e-2c50280dd5b8"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Design Landing Page", Description = "Create a visually appealing landing page for marketing." },            
+            new TaskEntity { Id = new Guid("3e0f06d4-bf71-72d2-9946-21ac609d4dd1"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Set Up Email Notifications", Description = "Implement email alerts for user activities." },            
+            new TaskEntity { Id = new Guid("d03ffa08-1e13-703f-b610-945675990fc7"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Develop Mobile App UI", Description = "Design and implement the mobile application interface." },            
+            new TaskEntity { Id = new Guid("0be2285a-01b9-7677-b235-0ea0bb63181d"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Create Backup Strategy", Description = "Plan and implement regular data backups." },            
+            new TaskEntity { Id = new Guid("b7d15550-d1a2-7f5c-9b18-47949ccf8a09"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Implement Search Feature", Description = "Add search functionality with filters." },            
+            new TaskEntity { Id = new Guid("25335252-e71d-7322-994d-dbc32d249c8e"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Optimize Frontend Performance", Description = "Improve page load speed and responsiveness." },            
+            new TaskEntity { Id = new Guid("892aa205-a8a7-7d25-a9b8-fc91b3464523"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Configure Security Headers", Description = "Enhance security by adding HTTP headers." },            
+            new TaskEntity { Id = new Guid("bb18fbc1-7f10-792e-ac73-0b54c277ea8c"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Develop Reporting Module", Description = "Create reports for user and admin dashboards." },            
+            new TaskEntity { Id = new Guid("2dbc57a4-dcb8-7e38-bcfa-4e538bce29df"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Set Up Load Testing", Description = "Perform load testing to ensure scalability." },            
+            new TaskEntity { Id = new Guid("c3ef5dce-258e-7823-8dbe-722f0a0f1ad7"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Implement File Upload", Description = "Allow users to upload files securely." },            
+            new TaskEntity { Id = new Guid("6bee3332-75d8-72c2-aafc-70ed06a8c33a"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Create Onboarding Flow", Description = "Design a smooth onboarding experience for new users." },            
+            new TaskEntity { Id = new Guid("3fe0ab1c-9ac1-788a-aef3-f10270887a71"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Integrate Social Login", Description = "Enable login via Google and Facebook." },            
+            new TaskEntity { Id = new Guid("43b7e292-3584-7823-97e3-27caa21a4a6c"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Develop Notification System", Description = "Implement real-time notifications for user actions." },            
+            new TaskEntity { Id = new Guid("a0a57651-e11a-7834-a151-b86163fc1946"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Set Up Error Monitoring", Description = "Configure tools to monitor and report errors." },            
+            new TaskEntity { Id = new Guid("2ac037d8-ccff-7b2e-b9c4-f1c5c07aeccf"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Implement Data Export", Description = "Allow users to export data in CSV format." },            
+            new TaskEntity { Id = new Guid("798d42c3-a760-780a-8173-686631e49843"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Create Admin Panel", Description = "Develop an admin interface for managing users." },            
+            new TaskEntity { Id = new Guid("f4e1c6b1-212e-7ca5-a132-4473c111d54c"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Add Multi-Language Support", Description = "Enable localization for multiple languages." },            
+            new TaskEntity { Id = new Guid("0536a50b-ce48-7563-95ab-8336e5c02382"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Configure SSL Certificates", Description = "Secure the application with HTTPS." },            
+            new TaskEntity { Id = new Guid("6935ab0d-a9e5-70d9-8c27-0b475fda2568"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Develop Chat Feature", Description = "Add real-time chat functionality for users." },            
+            new TaskEntity { Id = new Guid("48cfb48f-89f8-702f-bb89-ba8344474646"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Implement Dark Mode", Description = "Provide a dark theme option for the UI." },            
+            new TaskEntity { Id = new Guid("66297792-78b4-7f85-aa9b-9e7995827864"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Set Up Analytics", Description = "Integrate Google Analytics for tracking user behavior." },            
+            new TaskEntity { Id = new Guid("f61cbacc-0781-7fe4-a8d2-755e3d3f2e2e"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Create FAQ Section", Description = "Add a help and FAQ section for users." },            
+            new TaskEntity { Id = new Guid("2f6f5bb9-ff1f-7c0b-b48f-9cf3c6db158d"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Develop Subscription System", Description = "Implement recurring billing for premium users." },            
+            new TaskEntity { Id = new Guid("58d64f63-5a5a-7ade-abab-8ef8eed4553f"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Optimize Image Loading", Description = "Use lazy loading for images to improve performance." },            
+            new TaskEntity { Id = new Guid("542efcde-456a-7d7e-8fd0-e33dda521b1d"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Implement Two-Factor Authentication", Description = "Add extra security for user accounts." },            
+            new TaskEntity { Id = new Guid("c9cc94f7-07ae-7270-b735-c232b106a62a"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Create API Rate Limiting", Description = "Prevent abuse by limiting API requests." },            
+            new TaskEntity { Id = new Guid("88383c1a-c7b8-7965-8005-50eba4bad29f"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Develop Feedback Form", Description = "Allow users to submit feedback easily." },            
+            new TaskEntity { Id = new Guid("6facf3b9-8a1f-7c19-86c1-fc331b3dd9b0"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Set Up Push Notifications", Description = "Enable push notifications for mobile users." },            
+            new TaskEntity { Id = new Guid("59ec754f-ae62-73b7-8046-0fee8bddbf03"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Implement Data Validation", Description = "Ensure data integrity with proper validation." },            
+            new TaskEntity { Id = new Guid("605e0ea5-41bc-72e5-820b-e32b45986db2"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Create Sitemap", Description = "Generate a sitemap for SEO optimization." },            
+            new TaskEntity { Id = new Guid("3a539c4a-e5d7-75b8-a4a2-e4aaf08473fb"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Develop File Compression", Description = "Compress uploaded files to save storage." },            
+            new TaskEntity { Id = new Guid("0fdaa886-4ee5-7d53-af70-cdfe5891247f"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Set Up Role Auditing", Description = "Track changes in user roles and permissions." },            
+            new TaskEntity { Id = new Guid("be2f849e-cfcc-7ebd-96f0-5c473813af0e"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Implement Auto-Save Feature", Description = "Automatically save user progress in forms." },            
+            new TaskEntity { Id = new Guid("b2162483-224d-7404-be52-e0d9d83635c4"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Create API Versioning", Description = "Support multiple versions of the API." },            
+            new TaskEntity { Id = new Guid("30712589-3cff-75a3-a667-ece13f7f7591"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Develop Image Editor", Description = "Add basic image editing tools for users." },            
+            new TaskEntity { Id = new Guid("fbb8b432-ee91-7d9b-920b-0014b236a164"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Set Up Database Replication", Description = "Ensure high availability with replication." },            
+            new TaskEntity { Id = new Guid("569bd1f4-c4e0-71c2-a17c-d0e535e0bc3d"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Implement Password Reset", Description = "Allow users to reset their passwords securely." },            
+            new TaskEntity { Id = new Guid("770021b9-88ff-7319-8fea-927cccc31077"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Create Custom Error Pages", Description = "Design user-friendly error pages." },            
+            new TaskEntity { Id = new Guid("8c96900b-484d-7527-846d-74b522dbcf67"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Develop Tagging System", Description = "Enable tagging for better content organization." },            
+            new TaskEntity { Id = new Guid("80130472-2a00-7f46-98ae-4641f7e25fc7"), CreatedOn = new DateTime(2025, 12,3,0,0,0), Title = "Set Up API Gateway", Description = "Manage and secure API traffic efficiently." }
+        ]);
+    }
+}
