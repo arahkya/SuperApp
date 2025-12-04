@@ -16,10 +16,15 @@ public class TaskEntity : EntityBase<Guid>, IEntity
     
     public DateTime CreatedOn { get; internal init; }
     
+    public Guid BoardId { get; internal init; }
+    
+    public TaskBoardEntity? Board { get; internal init; }
+    
     public override List<ValidationResult> IsValid()
     {
         var validateResult = new List<ValidationResult>();
-        var isValid = Validator.TryValidateObject(this, new ValidationContext(this), validateResult, true);
+        
+        Validator.TryValidateObject(this, new ValidationContext(this), validateResult, true);
         
         return validateResult;
     }

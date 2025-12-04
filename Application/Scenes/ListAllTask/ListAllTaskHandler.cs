@@ -8,12 +8,11 @@ public class ListAllTaskHandler(IUnitOfWork unitOfWork, ILoggerFactory loggerFac
 {
     public async Task<ListAllTaskResponse> HandleAsync(ListAllTaskRequest request, CancellationToken cancellationToken)
     {
-        var taskBoard = new TaskBoardEntity(loggerFactory)
-        {
-            Tasks = [.. await unitOfWork.TaskRepository.ListByPageAsync(request.Page, request.PageSize)]
-        };
+        var taskBoard = await unitOfWork.TaskBoardRepository.GetTaskBoardAsync(request.Id);
         
-        var response = new ListAllTaskResponse(taskBoard.Tasks);
+        var pagedTasks = taskBoard.Tasks.Skip(request.Page * request.PageSize).Take(request.PageSize);
+        
+        var response = new ListAllTaskResponse(pagedTasks);
 
         return response;
     }

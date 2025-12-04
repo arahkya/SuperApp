@@ -4,16 +4,16 @@ using Microsoft.Extensions.Logging;
 
 namespace Domain.TaskManagement;
 
-public class TaskBoardEntity(ILoggerFactory loggerFactory) : RootAggregateEntityBase<Guid>
+public class TaskBoardEntity : RootAggregateEntityBase<Guid>
 {
     public List<TaskEntity> Tasks { get; internal init; } = [];
     
-    public TaskEntity CreateTask(string title, string description)
+    public TaskEntity CreateTask(string title, string? description)
     {
         var newTask = new TaskEntity
         {
             Title = title,
-            Description = description,
+            Description = description ?? string.Empty,
             CreatedOn = DateTimeProvider.CurrentDateTime()
         };
 
@@ -28,10 +28,6 @@ public class TaskBoardEntity(ILoggerFactory loggerFactory) : RootAggregateEntity
         }
         
         var validationException = new ValidationException(string.Join(Environment.NewLine, validateResult));
-        var logger = loggerFactory.CreateLogger<TaskEntity>();
-        
-        logger.LogError(validationException, string.Join(Environment.NewLine, validateResult));
-
         throw validationException;
     }
 }

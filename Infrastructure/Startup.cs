@@ -12,7 +12,7 @@ public static class Startup
     {
         services.AddSingleton<Channel<DomainEventBase<TaskEntity>>>(serviceProvider => Channel.CreateUnbounded<DomainEventBase<TaskEntity>>());
         
-        services.AddScoped<ITaskRepository, TaskRepository>();
+        services.AddScoped<ITaskBoardRepository, TaskBoardRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         
         return services;

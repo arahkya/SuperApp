@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Application.Interfaces;
 using Domain.TaskManagement;
 using Microsoft.Extensions.Logging;
@@ -8,19 +9,26 @@ public class CreateTaskHandler(IUnitOfWork unitOfWork, ILoggerFactory loggerFact
 {
     public async Task<Guid> HandleAsync(CreateTaskRequest request, CancellationToken cancellationToken)
     {
-        var taskBoard = new TaskBoardEntity(loggerFactory)
+        var logger = loggerFactory.CreateLogger<CreateTaskHandler>();
+        var taskBoard = await unitOfWork.TaskBoardRepository.GetTaskBoardAsync(request.BoardId);
+        var taskEntity = default(TaskEntity);
+
+        try
         {
-            Tasks = [.. await unitOfWork.TaskRepository.ListAllAsync()]
-        };
-        var taskEntity = taskBoard.CreateTask(request.Title, request.Description);
+            taskEntity = taskBoard.CreateTask(request.Title, request.Description);
+        }
+        catch (ValidationException validationException)
+        {
+            logger?.LogError(validationException, "Invalid Task Info Detected.");
+            
+            throw new Exception("Fail to create Task",  validationException);
+        }
 
         if (taskBoard.Tasks.Count > 50)
         {
-            var logger = loggerFactory.CreateLogger<CreateTaskHandler>();
-            logger.LogWarning("Task over limit (51)");
+            logger?.LogWarning("Task over limit (51)");
         }
         
-        await unitOfWork.TaskRepository.AddAsync(taskEntity);
         await unitOfWork.SaveChangeAsync(cancellationToken);
 
         var taskCreatedEvent = new TaskCreatedEvent(taskEntity);

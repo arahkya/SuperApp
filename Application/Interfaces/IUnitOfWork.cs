@@ -7,6 +7,6 @@ namespace Application.Interfaces;
 public interface IUnitOfWork
 {
     public Channel<DomainEventBase<TaskEntity>> TaskEvents { get; }
-    public ITaskRepository TaskRepository { get; }
+    public ITaskBoardRepository TaskBoardRepository { get; }
     Task SaveChangeAsync(CancellationToken cancellationToken);
 }

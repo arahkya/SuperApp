@@ -16,14 +16,22 @@ public class TaskHostService(IServiceProvider serviceProvider) : IHostedService
         
         using var scope = serviceProvider.CreateScope();
         _taskChannel = scope.ServiceProvider.GetRequiredService<Channel<DomainEventBase<TaskEntity>>>();
+
+        var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
+        var logger = loggerFactory.CreateLogger(nameof(TaskHostService));
         
         backgroundWorker.DoWork += async (sender,e) =>
         {
-            await _taskChannel.Reader.WaitToReadAsync(cancellationToken);
-        
-            var taskDomainEvent = await _taskChannel.Reader.ReadAsync(cancellationToken);
-        
-            Console.WriteLine($"{DateTime.Now.ToString(new CultureInfo("en-TH"))} - {taskDomainEvent.Type.ToString()} Task {taskDomainEvent.Entity.Title}");
+            while (true)
+            {
+                await _taskChannel.Reader.WaitToReadAsync(cancellationToken);
+
+                var taskDomainEvent = await _taskChannel.Reader.ReadAsync(cancellationToken);
+
+                logger.LogInformation("{ToString} - {S} Task {EntityTitle}",
+                    DateTime.Now.ToString(new CultureInfo("en-TH")), taskDomainEvent.Type.ToString(),
+                    taskDomainEvent.Entity.Title);
+            }
         };
         
         backgroundWorker.RunWorkerAsync();

@@ -2,6 +2,7 @@ namespace Application.Scenes.ListAllTask;
 
 public class ListAllTaskRequest
 {
-    public int Page { get; set; }
-    public int PageSize { get; set; }
+    public required Guid Id { get; init; }
+    public int Page { get; init; }
+    public int PageSize { get; init; }
 }

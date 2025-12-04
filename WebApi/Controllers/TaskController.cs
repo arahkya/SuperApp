@@ -11,11 +11,11 @@ namespace WebApi.Controllers;
 [Route("[controller]")]
 public class TaskController : ControllerBase
 {
-    [Route("list-all-task/{page}/{pageSize}")]
+    [Route("list-all-task/{boardId:guid}/{page:int}/{pageSize:int}")]
     [HttpGet(Name = "ListTasks")]
-    public async IAsyncEnumerable<ListAllTaskItemViewModel> List(int page, int pageSize, [FromServices] IHandler<ListAllTaskRequest, ListAllTaskResponse> listAllTaskHandler)
+    public async IAsyncEnumerable<ListAllTaskItemViewModel> List(Guid boardId, int page, int pageSize, [FromServices] IHandler<ListAllTaskRequest, ListAllTaskResponse> listAllTaskHandler)
     {
-        var request = new ListAllTaskRequest { Page = page, PageSize = pageSize };
+        var request = new ListAllTaskRequest { Id = boardId, Page = page, PageSize = pageSize };
         var response = await listAllTaskHandler.HandleAsync(request, CancellationToken.None);
         var index = page * pageSize + 1;
         
@@ -36,15 +36,16 @@ public class TaskController : ControllerBase
         {
             var id = await handler.HandleAsync(new CreateTaskRequest
             {
+                BoardId = viewModel.Id,
                 Title = viewModel.Title,
                 Description = viewModel.Description
             }, CancellationToken.None);
             
             return Ok(id);
         }
-        catch (ValidationException validationException)
+        catch (Exception exception)
         {   
-            return BadRequest(validationException.Message);
+            return BadRequest(exception.Message);
         }
     }
 }
