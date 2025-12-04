@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Application.Interfaces;
 using Application.Scenes.CreateTask;
+using Application.Scenes.DeleteTask;
 using Application.Scenes.ListAllTask;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Models;
@@ -45,6 +46,26 @@ public class TaskController : ControllerBase
         }
         catch (Exception exception)
         {   
+            return BadRequest(exception.Message);
+        }
+    }
+
+    [Route("delete-task/{boardId:guid}/{taskId:guid}")]
+    [HttpDelete(Name = "DeleteTask")]
+    public async Task<ActionResult> DeleteTask(Guid boardId, Guid taskId, [FromServices] IHandler<DeleteTaskRequest, bool> handler)
+    {
+        try
+        {
+            await handler.HandleAsync(new DeleteTaskRequest
+            {
+                BoardId = boardId,
+                TaskId = taskId
+            }, CancellationToken.None);
+            
+            return Ok();
+        }
+        catch (Exception exception)
+        {
             return BadRequest(exception.Message);
         }
     }

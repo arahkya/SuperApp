@@ -1,6 +1,6 @@
 @WebApi_HostAddress = http://localhost:5051
 
-GET {{WebApi_HostAddress}}/task/list-all-task/4969A039-C082-44AD-A9A4-0EFE2BBA3DE3/0/10
+GET {{WebApi_HostAddress}}/task/list-all-task/4969A039-C082-44AD-A9A4-0EFE2BBA3DE3/0/100
 Accept: application/json
 
 ###
@@ -13,5 +13,10 @@ Content-Type: application/json
     "title": "Hello",
     "description": "world"
 }
+
+###
+
+DELETE {{WebApi_HostAddress}}/task/delete-task/4969A039-C082-44AD-A9A4-0EFE2BBA3DE3/39b33e45-0731-4a63-a20f-7dd209ddbeec
+Accept: application/json
 
 ###

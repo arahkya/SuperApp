@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Scenes.ListAllTask;
 
-public class ListAllTaskHandler(IUnitOfWork unitOfWork, ILoggerFactory loggerFactory) : IHandler<ListAllTaskRequest, ListAllTaskResponse>
+public class ListAllTaskHandler(IUnitOfWork unitOfWork) : IHandler<ListAllTaskRequest, ListAllTaskResponse>
 {
     public async Task<ListAllTaskResponse> HandleAsync(ListAllTaskRequest request, CancellationToken cancellationToken)
     {
