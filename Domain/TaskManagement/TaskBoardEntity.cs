@@ -30,4 +30,15 @@ public class TaskBoardEntity : RootAggregateEntityBase<Guid>
         var validationException = new ValidationException(string.Join(Environment.NewLine, validateResult));
         throw validationException;
     }
+
+    public Task UpdateAsync(TaskEntity taskEntity)
+    {
+        var validateResult = taskEntity.IsValid();
+        var isValid = validateResult.Count == 0;
+
+        if (isValid) return Task.CompletedTask;
+        
+        var validationException = new ValidationException(string.Join(Environment.NewLine, validateResult));
+        throw validationException;
+    }
 }

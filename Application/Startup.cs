@@ -2,6 +2,7 @@ using Application.Interfaces;
 using Application.Scenes.CreateTask;
 using Application.Scenes.DeleteTask;
 using Application.Scenes.ListAllTask;
+using Application.Scenes.UpdateTask;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application;
@@ -13,6 +14,7 @@ public static class Startup
         services.AddScoped<IHandler<ListAllTaskRequest, ListAllTaskResponse>, ListAllTaskHandler>();
         services.AddScoped<IHandler<CreateTaskRequest, Guid>, CreateTaskHandler>();
         services.AddScoped<IHandler<DeleteTaskRequest, bool>, DeleteTaskHandler> ();
+        services.AddScoped<IHandler<UpdateTaskRequest, bool>, UpdateTaskHandler> ();
         
         return services;
     }

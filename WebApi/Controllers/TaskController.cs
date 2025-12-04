@@ -3,6 +3,7 @@ using Application.Interfaces;
 using Application.Scenes.CreateTask;
 using Application.Scenes.DeleteTask;
 using Application.Scenes.ListAllTask;
+using Application.Scenes.UpdateTask;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Models;
 
@@ -46,6 +47,28 @@ public class TaskController : ControllerBase
         }
         catch (Exception exception)
         {   
+            return BadRequest(exception.Message);
+        }
+    }
+
+    [Route("update-task/{boardId:guid}/{taskId:guid}")]
+    [HttpPatch(Name = "UpdateTask")]
+    public async Task<ActionResult> UpdateTask(Guid boardId, Guid taskId,[FromBody] UpdateTaskViewModel viewModel, [FromServices] IHandler<UpdateTaskRequest, bool> handler)
+    {
+        try
+        {
+            await handler.HandleAsync(new UpdateTaskRequest
+            {
+                BoardId = boardId,
+                TaskId = taskId,
+                Title = viewModel.Title,
+                Description = viewModel.Description
+            }, CancellationToken.None);
+            
+            return Ok();
+        }
+        catch (Exception exception)
+        {
             return BadRequest(exception.Message);
         }
     }

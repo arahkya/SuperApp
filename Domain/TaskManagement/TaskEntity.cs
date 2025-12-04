@@ -9,10 +9,10 @@ public class TaskEntity : EntityBase<Guid>, IEntity
     [Required]
     [MinLength(3)]
     [MaxLength(100)]
-    public string Title { get; internal init; } = string.Empty;
+    public string Title { get; internal set; } = string.Empty;
     
     [MaxLength(1000)]
-    public string Description { get; internal init; } = string.Empty;
+    public string Description { get; internal set; } = string.Empty;
     
     public DateTime CreatedOn { get; internal init; }
     

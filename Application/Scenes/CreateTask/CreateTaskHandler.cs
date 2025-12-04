@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Application.Interfaces;
+using Domain.Shared;
 using Domain.TaskManagement;
 using Microsoft.Extensions.Logging;
 
@@ -31,7 +32,10 @@ public class CreateTaskHandler(IUnitOfWork unitOfWork, ILoggerFactory loggerFact
         
         await unitOfWork.SaveChangeAsync(cancellationToken);
 
-        var taskCreatedEvent = new TaskCreatedEvent(taskEntity);
+        var taskCreatedEvent = new TaskDomainEvent(taskEntity)
+        {
+            Type = DomainEventBase<TaskEntity>.EventType.Added
+        };
         await unitOfWork.TaskEvents.Writer.WriteAsync(taskCreatedEvent, cancellationToken);
 
         return taskEntity.Id;

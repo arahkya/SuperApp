@@ -16,7 +16,17 @@ Content-Type: application/json
 
 ###
 
-DELETE {{WebApi_HostAddress}}/task/delete-task/4969A039-C082-44AD-A9A4-0EFE2BBA3DE3/39b33e45-0731-4a63-a20f-7dd209ddbeec
+DELETE {{WebApi_HostAddress}}/task/delete-task/4969A039-C082-44AD-A9A4-0EFE2BBA3DE3/2daaad34-b02a-4bbb-8fc9-3bda2336d072
 Accept: application/json
+
+###
+
+PATCH {{WebApi_HostAddress}}/task/update-task/4969A039-C082-44AD-A9A4-0EFE2BBA3DE3/2daaad34-b02a-4bbb-8fc9-3bda2336d072
+Content-Type: application/json
+
+{
+  "title": "สวัสดี",
+  "description": "ชาวโลก"
+}
 
 ###
